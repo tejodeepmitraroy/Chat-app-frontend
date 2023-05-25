@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -22,6 +22,10 @@ const Login = () => {
 
   const handleClick = () => setShow(!show);
 
+  useEffect(()=>{
+
+    console.log("line 27",process.env.REACT_APP_API_URL)
+  },[])
   const submitHandler = async () => {
     setLoading(true);
     if (!email || !password) {
@@ -43,8 +47,7 @@ const Login = () => {
         },
       };
 
-      const { data } = await axios.post(
-        "/api/user/login",
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/login`,
         { email, password },
         config
       );
