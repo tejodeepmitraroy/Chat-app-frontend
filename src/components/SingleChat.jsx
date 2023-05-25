@@ -19,7 +19,7 @@ import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = process.env.REACT_APP_API_URL;
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -30,7 +30,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
-  const { user, selectedChat, setSelectedChat, notification,setNotification } = ChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    ChatState();
 
   const toast = useToast();
   const defaultOptions = {
@@ -59,7 +60,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      
       setMessages(data);
       setLoading(false);
 
@@ -88,7 +88,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
-  console.log(notification,"-----------------");
+  console.log(notification, "-----------------");
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
@@ -96,13 +96,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         //give notfication
-        if(!notification.includes(newMessageRecieved)){
-          setNotification([newMessageRecieved,...notification]);
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
         }
-
-
-
       } else {
         setMessages([...messages, newMessageRecieved]);
       }
