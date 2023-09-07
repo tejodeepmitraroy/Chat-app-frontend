@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -22,6 +23,10 @@ import UserBadgeItem from "../UserAvater/UserBadgeItem";
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
+  const [groupChatDescription, setGroupChatDescription] = useState();
+  const [groupImage, setGroupImage] = useState(
+    "https://cdn-icons-png.flaticon.com/512/74/74577.png"
+  );
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [search, setSearch] = useState();
   const [searchResult, setSearchResult] = useState();
@@ -89,10 +94,14 @@ const GroupChatModal = ({ children }) => {
         `${process.env.REACT_APP_API_URL}/api/chat/group`,
         {
           name: groupChatName,
-          users: JSON.stringify(selectedUsers.map((u) => u._id)),
+          description: groupChatDescription,
+          groupImage: groupImage,
+          users: selectedUsers,
         },
         config
       );
+
+      console.log(data)
 
       setChats([data, ...chats]);
       onClose();
@@ -101,15 +110,15 @@ const GroupChatModal = ({ children }) => {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "right",
       });
     } catch (error) {
       toast({
         title: "Failed to Created the Chat",
-        status: "success",
+        status: "warning",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "right",
       });
     }
   };
@@ -148,12 +157,32 @@ const GroupChatModal = ({ children }) => {
             Create Group Chat
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody display="flex" flexDir="column" alignItems="center">
+          <ModalBody
+            display="flex"
+            flexDir="column"
+            alignItems="center"
+            gap="4"
+          >
+            <Image
+              borderRadius="full"
+              boxSize="115px"
+              src={groupImage}
+              border="3px solid black"
+              padding="4px"
+              alt="Dan Abramov"
+            />
             <FormControl>
               <Input
                 placeholder="Chat Name"
                 mb={3}
                 onChange={(e) => setGroupChatName(e.target.value)}
+              />
+            </FormControl>
+            <FormControl>
+              <Input
+                placeholder="Description"
+                mb={3}
+                onChange={(e) => setGroupChatDescription(e.target.value)}
               />
             </FormControl>
             <FormControl>

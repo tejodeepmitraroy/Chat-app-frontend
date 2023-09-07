@@ -1,62 +1,41 @@
-import React, { useEffect } from "react";
-import {
-  Container,
-  Center,
-  Box,
-  Text,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-} from "@chakra-ui/react";
-import Login from "../components/Authentication/Login";
-import Signup from "../components/Authentication/Signup";
-import { useHistory } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
+import { ChatState } from "../Context/ChatProvider";
+import SideDrawer from "../components/miscellaneous/SideDrawer";
+import MyChats from "../components/MyChats";
+import ChatBox from "../components/ChatBox";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const history = useHistory();
+  const { user } = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (user) {
-      history.push("/chats");
+    if (!user) {
+      navigate("/login");
+      window.location.reload();
     }
-  }, [history]);
+  }, [navigate]);
 
   return (
-    <Container maxW="xl" centerContent>
-      <Center
-        d="flex"
-        justifyContent="center"
-        p={3}
-        bg={"white"}
+    <div style={{ width: "100%" }}>
+      {user && <SideDrawer />}
+      <Box
+        display="flex"
+        justifyContent="space-between"
         w="100%"
-        m="40px 0 15px 0"
-        borderRadius="lg"
-        borderWidth="1px"
+        h="91.5vh"
+        p="10px"
       >
-        <Text fontSize="4xl" fontFamily="Work sans" color="black">
-          Talk-A-Tive
-        </Text>
-      </Center>
-      <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-        <Tabs variant="soft-rounded">
-          <TabList mb="1em">
-            <Tab width="50%">Login</Tab>
-            <Tab width="50%">Sign Up</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Login />
-            </TabPanel>
-            <TabPanel>
-              <Signup />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Box>
-    </Container>
+    </div>
   );
 };
 

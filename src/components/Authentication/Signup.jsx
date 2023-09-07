@@ -6,11 +6,12 @@ import {
   InputRightElement,
   Button,
   VStack,
+  Box,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -21,7 +22,7 @@ const Signup = () => {
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => setShow(!show);
   const postDetails = (pics) => {
@@ -37,18 +38,25 @@ const Signup = () => {
       return;
     }
 
+    console.log(pics);
+
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
       data.append("upload_preset", "chat-app");
       data.append("cloud_name", "dlavxaftl");
+
+      for (var key of data.entries()) {
+        console.log(key[0] + ", " + key[1]);
+      }
+
       fetch("https://api.cloudinary.com/v1_1/dlavxaftl/image/upload", {
         method: "POST",
         body: data,
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setPic(data.url.toString());
           setLoading(false);
         })
@@ -67,8 +75,6 @@ const Signup = () => {
       setLoading(false);
       return;
     }
-
-    
   };
   const submitHandler = async () => {
     setLoading(true);
@@ -120,8 +126,7 @@ const Signup = () => {
 
       setLoading(false);
 
-      history.push("/chats");
-      window.location.reload();
+      navigate("/");
 
       setName("");
       setEmail("");
@@ -140,6 +145,8 @@ const Signup = () => {
       setLoading(false);
     }
   };
+
+  
 
   return (
     <VStack spacing="5px">
@@ -197,15 +204,27 @@ const Signup = () => {
           onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
-      <Button
-        colorScheme="blue"
+      <Box
+        display="flex"
         width="100%"
-        style={{ marginTop: 15 }}
-        onClick={submitHandler}
-        isLoading={loading}
+        paddingX="1rem"
+        justifyContent="space-between"
       >
-        Sign Up
-      </Button>
+        <Button
+          colorScheme="blue"
+          bgGradient="linear(to-r, purple.500, pink.500)"
+          _hover={{ bgGradient: "linear(to-l, purple.500, pink.500)" }}
+          style={{ marginTop: 15 }}
+          onClick={submitHandler}
+          isLoading={loading}
+        >
+          Sign Up
+        </Button>
+
+        <Link to="/login">
+          <Button style={{ marginTop: 15 }}>Back</Button>
+        </Link>
+      </Box>
     </VStack>
   );
 };

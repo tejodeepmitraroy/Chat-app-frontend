@@ -23,7 +23,7 @@ import {
 import React, { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModal from "./ProfileModal";
-import { useHistory } from "react-router-dom";
+import { useHistory, useNavigate } from "react-router-dom";
 import ChatLoading from "../ChatLoading";
 import axios from "axios";
 import UserListItem from "../UserAvater/UserListItem";
@@ -46,12 +46,12 @@ const SideDrawer = () => {
     notification,
     setNotification,
   } = ChatState();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
-    history.push("/");
+    navigate("/");
   };
 
   const toast = useToast();
@@ -77,7 +77,10 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/user?search=${search}`, config);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/user?search=${search}`,
+        config
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -103,7 +106,11 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/chat`, { userId }, config);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/chat`,
+        { userId },
+        config
+      );
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 

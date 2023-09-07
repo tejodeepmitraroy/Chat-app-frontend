@@ -7,10 +7,11 @@ import {
   InputRightElement,
   Button,
   VStack,
+  Box,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -18,14 +19,10 @@ const Login = () => {
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => setShow(!show);
 
-  useEffect(()=>{
-
-    console.log("line 27",process.env.REACT_APP_API_URL)
-  },[])
   const submitHandler = async () => {
     setLoading(true);
     if (!email || !password) {
@@ -47,10 +44,14 @@ const Login = () => {
         },
       };
 
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/Login`,
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/user/login`,
         { email, password },
         config
       );
+
+      console.log(data)
+
       toast({
         title: "Login successfull",
         status: "success",
@@ -63,12 +64,12 @@ const Login = () => {
 
       setLoading(false);
 
-      history.push("/chats");
+      navigate("/");
       window.location.reload();
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: error.response.data.message,
+        description: error.response.data,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -78,12 +79,13 @@ const Login = () => {
     }
   };
 
+
   return (
-    <VStack spacing="5px">
-      <FormControl id="email">
-        <FormLabel>Email</FormLabel>
+    <VStack spacing="12px" display="flex" flexDir="column" gap="3px">
+      <FormControl>
+        <FormLabel>Email address</FormLabel>
         <Input
-          placeholder="Enter Your Email"
+          placeholder="john.Doe@gmail.com"
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
@@ -102,26 +104,42 @@ const Login = () => {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <Button
-        colorScheme="blue"
-        width="100%"
-        style={{ marginTop: 15 }}
-        onClick={submitHandler}
-        isLoading={loading}
-      >
-        Login
-      </Button>
-      <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@email.com");
-          setPassword("123456");
-        }}
-      >
-        Get Guest User Credentials
-      </Button>
+      <Box display="flex" w={"100%"} justifyContent="space-between">
+        <Button
+          colorScheme="blue"
+          bgGradient="linear(to-r, cyan.500, blue.500)"
+          _hover={{ bgGradient: "linear(to-bl, cyan.500, blue.500)" }}
+          style={{ marginTop: 15 }}
+          onClick={submitHandler}
+          isLoading={loading}
+        >
+          Login
+        </Button>
+        <Box display="flex" justifyContent="space-between" gap="8px">
+          <Link to="/signup">
+            <Button
+              colorScheme="blue"
+              bgGradient="linear(to-r, purple.500, pink.500)"
+              _hover={{ bgGradient: "linear(to-l, purple.500, pink.500)" }}
+              style={{ marginTop: 15 }}
+            >
+              Sign Up
+            </Button>
+          </Link>
+
+          <Link to="/forgetpassword">
+            <Button
+              colorScheme="blue"
+              bgGradient="linear(to-br, pink.500, orange.400)"
+              _hover={{ bgGradient: "linear(to-bl, purple.500, pink.500)" }}
+              style={{ marginTop: 15 }}
+             
+            >
+              Forget Password
+            </Button>
+          </Link>
+        </Box>
+      </Box>
     </VStack>
   );
 };

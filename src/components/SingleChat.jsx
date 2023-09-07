@@ -56,7 +56,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       setLoading(true);
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/message/${selectedChat._id}`,
+        `${process.env.REACT_APP_API_URL}/api/message?chatId=${selectedChat._id}`,
         config
       );
 
