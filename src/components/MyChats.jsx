@@ -1,11 +1,11 @@
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Image, Stack, Text, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
 import { useEffect } from "react";
 import { AddIcon, SmallAddIcon } from "@chakra-ui/icons";
 import ChatLoading from "../components/ChatLoading";
-import { getSender } from "../config/ChatsLogics";
+import { getSender, getSenderImage } from "../config/ChatsLogics";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 
 const MyChats = ({ fetchAgain }) => {
@@ -22,7 +22,10 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/chat`, config);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/chat`,
+        config
+      );
 
       setChats(data);
     } catch (error) {
@@ -91,6 +94,9 @@ const MyChats = ({ fetchAgain }) => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
+                display="flex"
+                gap="3"
+                alignItems="center"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
                 color={selectedChat === chat ? "white" : "black"}
                 px={3}
@@ -98,11 +104,34 @@ const MyChats = ({ fetchAgain }) => {
                 borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
+                <Box display="flex" alignItems="center" justifyItems="center">
+                  {!chat.isGroupChat ? (
+                    <Image
+                      borderRadius="full"
+                      boxSize="40px"
+                      src={getSenderImage(user, chat.users)}
+                      alt={getSender(user, chat.users)}
+                    />
+                  ) : (
+                    <Image
+                      borderRadius="full"
+                      boxSize="40px"
+                      padding="0.5"
+                      src={chat.groupImage}
+                      alt={chat.chatName.toUpperCase()}
+                    />
+                  )}
+                </Box>
+                <Box>
+                  <Text fontWeight="bold" fontSize="lg">
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
+                  </Text>
+                  <Text fontSize="sm">
+                    {chat.latestMessage ? chat.latestMessage.content : ""}
+                  </Text>
+                </Box>
               </Box>
             ))}
           </Stack>

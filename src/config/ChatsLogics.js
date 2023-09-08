@@ -43,3 +43,7 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
 export const isSameUser = (messages, m, i) => {
   return i > 0 && messages[i - 1].sender._id === m.sender._id;
 };
+
+export const getSenderImage = (loggedUser, users) => {
+  return users[0]._id === loggedUser._id ? users[1].image : users[0].image;
+};

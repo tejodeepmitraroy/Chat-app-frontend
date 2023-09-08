@@ -2,6 +2,7 @@ import {
   Box,
   FormControl,
   IconButton,
+  Image,
   Input,
   Spinner,
   Text,
@@ -10,7 +11,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { getSender, getSenderFull } from "../config/ChatsLogics";
+import {
+  getSender,
+  getSenderFull,
+  getSenderImage,
+} from "../config/ChatsLogics";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import axios from "axios";
@@ -185,12 +190,30 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             />
             {!selectedChat.isGroupChat ? (
               <>
-                {getSender(user, selectedChat.users)}
+                <Box display="flex" gap="2" alignItems="center">
+                  <Image
+                    borderRadius="full"
+                    boxSize="40px"
+                    src={getSenderImage(user, selectedChat.users)}
+                    alt={getSender(user, selectedChat.users)}
+                  />
+                  {getSender(user, selectedChat.users)}
+                </Box>
                 <ProfileModal user={getSenderFull(user, selectedChat.users)} />
               </>
             ) : (
               <>
-                {selectedChat.chatName.toUpperCase()}
+                <Box display="flex" gap="2" alignItems="center">
+                  <Image
+                    borderRadius="full"
+                    boxSize="40px"
+                    padding="0.5"
+                    src={selectedChat.groupImage}
+                    alt={selectedChat.chatName.toUpperCase()}
+                  />
+
+                  {selectedChat.chatName.toUpperCase()}
+                </Box>
                 <UpdateGroupChatModal
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
@@ -241,6 +264,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 onChange={typingHandler}
                 value={newMessage}
               />
+              
             </FormControl>
           </Box>
         </>

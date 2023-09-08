@@ -144,7 +144,6 @@ const GroupChatModal = ({ children }) => {
   return (
     <>
       <span onClick={onOpen}>{children}</span>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
