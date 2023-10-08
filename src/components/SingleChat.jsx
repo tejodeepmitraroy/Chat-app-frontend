@@ -8,7 +8,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
@@ -48,7 +48,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     },
   };
 
-  const fetchMessages = async () => {
+  
+
+  const fetchMessages = useCallback(async () => {
     if (!selectedChat) return;
 
     try {
@@ -79,7 +81,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         position: "bottom",
       });
     }
-  };
+  },[selectedChat, toast, user.token]);
+
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
@@ -91,7 +94,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
-  }, [ selectedChat]);
+  }, [fetchMessages, selectedChat]);
 
   console.log(notification, "-----------------");
   useEffect(() => {
@@ -263,7 +266,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 onChange={typingHandler}
                 value={newMessage}
               />
-              
             </FormControl>
           </Box>
         </>
