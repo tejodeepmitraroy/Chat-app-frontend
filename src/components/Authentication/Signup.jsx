@@ -19,7 +19,7 @@ const Signup = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
-  const [pic, setPic] = useState();
+  const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const Signup = () => {
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);
-          setPic(data.url.toString());
+          setImage(data.url.toString());
           setLoading(false);
         })
         .catch((err) => {
@@ -111,7 +111,7 @@ const Signup = () => {
 
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/user`,
-        { name, email, password, pic },
+        { name, email, password, image },
         config
       );
       toast({
@@ -132,7 +132,7 @@ const Signup = () => {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      setPic("");
+      setImage("");
     } catch (error) {
       toast({
         title: "Error Occured!",
