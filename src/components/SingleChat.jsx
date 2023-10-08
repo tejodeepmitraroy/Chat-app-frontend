@@ -86,12 +86,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
-  }, [fetchMessages, selectedChat]);
+  }, [ selectedChat]);
 
   console.log(notification, "-----------------");
   useEffect(() => {
@@ -211,7 +211,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     src={selectedChat.groupImage}
                     alt={selectedChat.chatName.toUpperCase()}
                   />
-
                   {selectedChat.chatName.toUpperCase()}
                 </Box>
                 <UpdateGroupChatModal
