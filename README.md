@@ -1,10 +1,8 @@
-
 # Realtime Chat App Documentation
-
 
 ![signup](https://github.com/user-attachments/assets/bb9ef07b-dff8-4803-9e64-77f12ce43b52)
 
-
+![Screenshot 2024-08-06 190324](https://github.com/user-attachments/assets/963d6040-5e87-44c0-b007-308c43c8f677)
 
 ## Introduction
 
