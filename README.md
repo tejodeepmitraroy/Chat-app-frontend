@@ -12,7 +12,7 @@ Link--> [https://talk-a-tive-1.netlify.app](https://talk-a-tive-1.netlify.app)
 
 Frontend -> [https://github.com/tejodeepmitraroy/Chat-app-frontend](https://github.com/tejodeepmitraroy/Chat-app-frontend)
 
-Backend -> [https://github.com/Tejodeep2002/Chat-app-backend](https://github.com/Tejodeep2002/Chat-app-backend)
+Backend -> [https://github.com/tejodeepmitraroy/Chat-app-backend](https://github.com/tejodeepmitraroy/Chat-app-backend)
 
 
 ## Features
