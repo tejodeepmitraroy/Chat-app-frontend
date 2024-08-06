@@ -1,14 +1,19 @@
 
-
-Link --->>>>>>>>https://talk-a-tive-1.netlify.app/#/
-
-
-
 # Realtime Chat App Documentation
 
 ## Introduction
 
 Realtime Chat App is a dynamic and feature-rich web application built using the MERN (MongoDB, Express, React, Node) stack. This application facilitates seamless, real-time, end-to-end messaging, and offers a range of interactive features, including in-built themes, profile picture changes, and group chat capabilities.
+
+Link--> [https://talk-a-tive-1.netlify.app](https://talk-a-tive-1.netlify.app)
+
+
+## Repos
+
+Frontend -> [https://github.com/tejodeepmitraroy/Chat-app-frontend](https://github.com/tejodeepmitraroy/Chat-app-frontend)
+
+Backend -> [https://github.com/Tejodeep2002/Chat-app-backend](https://github.com/Tejodeep2002/Chat-app-backend)
+
 
 ## Features
 
