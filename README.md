@@ -1,6 +1,11 @@
 
 # Realtime Chat App Documentation
 
+
+![signup](https://github.com/user-attachments/assets/bb9ef07b-dff8-4803-9e64-77f12ce43b52)
+
+
+
 ## Introduction
 
 Realtime Chat App is a dynamic and feature-rich web application built using the MERN (MongoDB, Express, React, Node) stack. This application facilitates seamless, real-time, end-to-end messaging, and offers a range of interactive features, including in-built themes, profile picture changes, and group chat capabilities.
